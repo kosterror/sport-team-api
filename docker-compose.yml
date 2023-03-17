@@ -1,0 +1,12 @@
+version: '3.7'
+
+services:
+  postgres:
+    container_name: sport-team-db
+    image: postgres:alpine
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_DB=sport-team-db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
