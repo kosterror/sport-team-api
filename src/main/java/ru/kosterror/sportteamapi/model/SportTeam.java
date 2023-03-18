@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Класс для хранения данных в БД о спортивной команде.
@@ -32,5 +33,8 @@ public class SportTeam {
     @Temporal(TemporalType.DATE)
     @Column(name = "date_of_foundation")
     private Date foundDate;
+
+    @OneToMany(mappedBy = "sportTeam", fetch = FetchType.EAGER)
+    private List<TeamMember> members;
 
 }
