@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: create-sport-type-table
+      id: create-team-member-role-table
       author: Konstantin
       changes:
         - createTable:
-            tableName: sport_type
+            tableName: team_member_role
             columns:
               - column:
                   name: id
