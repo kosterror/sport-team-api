@@ -3,9 +3,10 @@ package ru.kosterror.sportteamapi.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
- * Класс, для хранения данных в БД о виде спорта.
+ * Класс для хранения данных в БД о виде спорта.
  */
 @Entity
 @Table(name = "sport_type")
@@ -23,5 +24,8 @@ public class SportType {
 
     @Column(name = "name", unique = true, nullable = false)
     private String name;
+
+    @OneToMany(mappedBy = "sportType", fetch = FetchType.LAZY)
+    private List<SportTeam> sportTeams;
 
 }
