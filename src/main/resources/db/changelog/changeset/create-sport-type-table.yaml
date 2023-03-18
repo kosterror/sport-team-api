@@ -1,0 +1,22 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-sport-type-table
+      author: Konstantin
+      changes:
+        - createTable:
+            tableName: sport_type
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+
+
