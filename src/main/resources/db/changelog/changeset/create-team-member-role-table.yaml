@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-team-member-role-table
+      author: Konstantin
+      changes:
+        - createTable:
+            tableName: team_member_role
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_team_member_role
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true

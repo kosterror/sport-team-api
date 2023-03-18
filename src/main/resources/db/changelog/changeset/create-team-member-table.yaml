@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-team-member-table
+      author: Konstantin
+      changes:
+        - createTable:
+            tableName: team_member
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: surname
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: patronymic
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_of_birth
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: sport_team_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_sport_team
+                    referencedTableName: sport_team
+                    referencedColumnNames: id
+              - column:
+                  name: role_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_team_member_role
+                    referencedTableName: team_member_role
+                    referencedColumnNames: id
