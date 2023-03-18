@@ -10,8 +10,9 @@ databaseChangeLog:
                   name: id
                   type: bigserial
                   constraints:
-                    primaryKey: true
                     nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_key_name
               - column:
                   name: name
                   type: varchar(255)
@@ -22,9 +23,10 @@ databaseChangeLog:
                   name: sport_type_id
                   type: bigint
                   constraints:
-                    referencedTableName: sport_type
-                    foreignKeyName: id
                     nullable: false
+                    foreignKeyName: fk_sport_type
+                    referencedTableName: sport_type
+                    referencedColumnNames: id
               - column:
                   name: date_of_foundation
                   type: date

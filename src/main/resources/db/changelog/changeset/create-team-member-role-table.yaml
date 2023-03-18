@@ -10,8 +10,9 @@ databaseChangeLog:
                   name: id
                   type: bigserial
                   constraints:
-                    primaryKey: true
                     nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_team_member_role
               - column:
                   name: name
                   type: varchar(255)
