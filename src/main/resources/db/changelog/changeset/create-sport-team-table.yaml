@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-sport-team-table
+      author: Konstantin
+      changes:
+        - createTable:
+            tableName: sport_team
+            columns:
+              - column:
+                  name: id
+                  type: bigserial
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: sport_type_id
+                  type: bigint
+                  constraints:
+                    referencedTableName: sport_type
+                    foreignKeyName: id
+                    nullable: false
+              - column:
+                  name: date_of_foundation
+                  type: date
+                  constraints:
+                    nullable: false
