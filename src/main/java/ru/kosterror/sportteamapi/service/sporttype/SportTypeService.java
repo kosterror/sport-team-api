@@ -2,7 +2,9 @@ package ru.kosterror.sportteamapi.service.sporttype;
 
 import ru.kosterror.sportteamapi.dto.sporttype.NewSportTypeDto;
 import ru.kosterror.sportteamapi.dto.sporttype.SportTypeDto;
+import ru.kosterror.sportteamapi.dto.sporttype.UpdateSportTypeDto;
 import ru.kosterror.sportteamapi.exception.ConflictException;
+import ru.kosterror.sportteamapi.exception.NotFoundException;
 import ru.kosterror.sportteamapi.model.SportType;
 
 /**
@@ -19,4 +21,16 @@ public interface SportTypeService {
      */
     SportTypeDto createSportType(NewSportTypeDto newSportTypeDto) throws ConflictException;
 
+    /**
+     * Метод для обновления информации о виде спорта.
+     *
+     * @param id                 идентификатор вида спорта.
+     * @param updateSportTypeDto новая информация о виде спорта.
+     * @return обновленная информация о виде спорта.
+     * @throws ConflictException возникает, если названия вида спорта уже занято.
+     * @throws NotFoundException возникает, если вид спорта с заданным идентификатором не найден.
+     */
+    SportTypeDto updateSportType(Long id,
+                                 UpdateSportTypeDto updateSportTypeDto
+    ) throws ConflictException, NotFoundException;
 }

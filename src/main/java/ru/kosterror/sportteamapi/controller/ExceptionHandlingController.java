@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import ru.kosterror.sportteamapi.dto.sporttype.ApiError;
 import ru.kosterror.sportteamapi.exception.ConflictException;
+import ru.kosterror.sportteamapi.exception.NotFoundException;
 
 import javax.naming.ConfigurationException;
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,27 @@ import java.util.stream.Stream;
  */
 @ControllerAdvice
 public class ExceptionHandlingController extends ResponseEntityExceptionHandler {
+
+    /**
+     * Метод для отлавливания {@link NotFoundException}.
+     *
+     * @param request   запрос, во время которого выбросилось исключение.
+     * @param exception исключение, которое будет обрабатываться.
+     * @return {@link ApiError}, обернутый в {@link ResponseEntity} с кодом 404.
+     */
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ApiError> handleNotFoundException(HttpServletRequest request,
+                                                            NotFoundException exception
+    ) {
+        ApiError error = new ApiError(
+                LocalDateTime.now(),
+                HttpStatus.NOT_FOUND,
+                "Некорректные входные данные",
+                Stream.of(exception.getMessage()).collect(Collectors.toList())
+        );
+
+        return new ResponseEntity<>(error, error.getHttpStatus());
+    }
 
     /**
      * Метод для отлавливания {@link ConfigurationException}.
