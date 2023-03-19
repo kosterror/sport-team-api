@@ -9,4 +9,14 @@ import ru.kosterror.sportteamapi.model.SportType;
  */
 @Repository
 public interface SportTypeRepository extends JpaRepository<SportType, Long> {
+
+    /**
+     * Метод для проверки существования вида спорта
+     * с переданным названием.
+     *
+     * @param name название вида спорта.
+     * @return существует ли вид спорта с заданным названием.
+     */
+    boolean existsByName(String name);
+
 }

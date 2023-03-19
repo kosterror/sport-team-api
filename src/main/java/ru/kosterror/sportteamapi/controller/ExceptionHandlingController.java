@@ -6,10 +6,14 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import ru.kosterror.sportteamapi.dto.sporttype.ApiError;
+import ru.kosterror.sportteamapi.exception.ConflictException;
 
+import javax.naming.ConfigurationException;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Контроллер для глобальной обработки исключений. Здесь будут отлавливаться все исключения,
@@ -17,6 +21,25 @@ import java.util.Collections;
  */
 @ControllerAdvice
 public class ExceptionHandlingController extends ResponseEntityExceptionHandler {
+
+    /**
+     * Метод для отлавливания {@link ConfigurationException}.
+     *
+     * @param request   запрос, во время которого выбросилось исключение.
+     * @param exception исключение, которое будет обрабатываться.
+     * @return {@link ApiError}, обернутый в {@link ResponseEntity} с кодом 409.
+     */
+    @ExceptionHandler(ConflictException.class)
+    public ResponseEntity<ApiError> handleConflictException(HttpServletRequest request, ConflictException exception) {
+        ApiError error = new ApiError(
+                LocalDateTime.now(),
+                HttpStatus.CONFLICT,
+                "Некорректные входные данные",
+                Stream.of(exception.getMessage()).collect(Collectors.toList())
+        );
+
+        return new ResponseEntity<>(error, error.getHttpStatus());
+    }
 
     /**
      * Метод для отлавливания {@link Exception}.
