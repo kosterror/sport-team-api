@@ -1,4 +1,4 @@
-package ru.kosterror.sportteamapi.dto.memberrole;
+package ru.kosterror.sportteamapi.dto.teammemberrole;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
