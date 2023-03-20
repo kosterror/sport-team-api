@@ -49,4 +49,13 @@ public class SportTypeServiceImpl implements SportTypeService {
         sportType = sportTypeRepository.save(sportType);
         return sportTypeMapper.entityToDto(sportType);
     }
+
+    @Override
+    public void deleteSportType(Long id) throws NotFoundException {
+        if (!sportTypeRepository.existsById(id)){
+            throw new NotFoundException("Вид спорта с id = '" + id + "' не найден");
+        }
+
+        sportTypeRepository.deleteById(id);
+    }
 }

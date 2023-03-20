@@ -33,4 +33,12 @@ public interface SportTypeService {
     SportTypeDto updateSportType(Long id,
                                  UpdateSportTypeDto updateSportTypeDto
     ) throws ConflictException, NotFoundException;
+
+    /**
+     * Метод для удаления вида спорта и команд, которые к нему относятся.
+     *
+     * @param id идентификатор вида спорта.
+     * @throws NotFoundException возникает, если вид спорта с заданным идентификатором не найден.
+     */
+    void deleteSportType(Long id) throws NotFoundException;
 }

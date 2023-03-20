@@ -51,4 +51,16 @@ public class SportTypeController {
         return service.updateSportType(id, updateSportTypeDto);
     }
 
+    /**
+     * Метод для удаления вида спорта и команд, которые относятся к этому виду спорта.
+     *
+     * @param id идентификатор удаляемого вида спорта.
+     * @throws NotFoundException исключение, которое может возникнуть, если вид спорта
+     *                           с заданным идентификатором не найден.
+     */
+    @DeleteMapping("/{id}")
+    public void deleteSportType(@PathVariable Long id) throws NotFoundException {
+        service.deleteSportType(id);
+    }
+
 }
