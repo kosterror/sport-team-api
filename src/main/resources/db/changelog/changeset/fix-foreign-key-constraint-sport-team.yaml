@@ -1,0 +1,18 @@
+databaseChangeLog:
+  - changeSet:
+      id: fix-foreign-key-constraint-sport-team
+      author: Konstantin
+      changes:
+        - dropNotNullConstraint:
+            tableName: sport_team
+            columnName: sport_type_id
+        - dropForeignKeyConstraint:
+            baseTableName: sport_team
+            constraintName: fk_sport_type
+        - addForeignKeyConstraint:
+            constraintName: fk_sport_type
+            baseTableName: sport_team
+            baseColumnNames: sport_type_id
+            referencedTableName: sport_type
+            referencedColumnNames: id
+            onDelete: SET NULL
