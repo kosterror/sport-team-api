@@ -1,5 +1,6 @@
 package ru.kosterror.sportteamapi.mapper.teammemberrole;
 
+import org.springframework.stereotype.Component;
 import ru.kosterror.sportteamapi.dto.teammemberrole.NewTeamMemberRoleDto;
 import ru.kosterror.sportteamapi.dto.teammemberrole.TeamMemberRoleDto;
 import ru.kosterror.sportteamapi.model.TeamMemberRole;
@@ -8,6 +9,7 @@ import ru.kosterror.sportteamapi.model.TeamMemberRole;
  * Класс реализующий интерфейс {@link TeamMemberRoleMapper}. Используется для конвертации {@link TeamMemberRole}
  * в связанные с ним классы и для получения его из них.
  */
+@Component
 public class TeamMemberRoleMapperImpl implements TeamMemberRoleMapper {
 
     @Override
