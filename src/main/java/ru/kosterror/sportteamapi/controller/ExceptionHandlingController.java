@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import ru.kosterror.sportteamapi.dto.sporttype.ApiError;
+import ru.kosterror.sportteamapi.dto.ApiError;
 import ru.kosterror.sportteamapi.exception.ConflictException;
 import ru.kosterror.sportteamapi.exception.NotFoundException;
 

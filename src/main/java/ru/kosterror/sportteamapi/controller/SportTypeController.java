@@ -8,7 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ru.kosterror.sportteamapi.dto.sporttype.ApiError;
+import ru.kosterror.sportteamapi.dto.ApiError;
 import ru.kosterror.sportteamapi.dto.sporttype.NewSportTypeDto;
 import ru.kosterror.sportteamapi.dto.sporttype.SportTypeDto;
 import ru.kosterror.sportteamapi.dto.sporttype.UpdateSportTypeDto;
