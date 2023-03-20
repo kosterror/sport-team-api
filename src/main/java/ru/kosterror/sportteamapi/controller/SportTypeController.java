@@ -10,6 +10,8 @@ import ru.kosterror.sportteamapi.exception.NotFoundException;
 import ru.kosterror.sportteamapi.model.SportType;
 import ru.kosterror.sportteamapi.service.sporttype.SportTypeService;
 
+import java.util.List;
+
 /**
  * Контроллер для {@code CRUD} операций над {@link SportType}
  */
@@ -19,6 +21,28 @@ import ru.kosterror.sportteamapi.service.sporttype.SportTypeService;
 public class SportTypeController {
 
     private final SportTypeService service;
+
+    /**
+     * Метод для получения всех видов спорта.
+     *
+     * @return список видов спорта.
+     */
+    @GetMapping
+    public List<SportTypeDto> getSportTypes() {
+        return service.getSportTypes();
+    }
+
+    /**
+     * Метод для получения вида спорта по его идентификатору.
+     *
+     * @param id идентификатор.
+     * @return информация о виде спорта.
+     * @throws NotFoundException возникает, если вид спорта по заданному идентификатору не найден.
+     */
+    @GetMapping("/{id}")
+    public SportTypeDto getSportType(@PathVariable Long id) throws NotFoundException {
+        return service.getSportTypeById(id);
+    }
 
     /**
      * Метод для создания нового вида спорта.

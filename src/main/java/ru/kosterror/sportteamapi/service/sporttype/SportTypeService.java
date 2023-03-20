@@ -7,6 +7,8 @@ import ru.kosterror.sportteamapi.exception.ConflictException;
 import ru.kosterror.sportteamapi.exception.NotFoundException;
 import ru.kosterror.sportteamapi.model.SportType;
 
+import java.util.List;
+
 /**
  * Интерфейс, который предоставляет методы для операций {@code CRUD} с {@link SportType}.
  */
@@ -41,4 +43,21 @@ public interface SportTypeService {
      * @throws NotFoundException возникает, если вид спорта с заданным идентификатором не найден.
      */
     void deleteSportType(Long id) throws NotFoundException;
+
+    /**
+     * Метод для получения всех видов спорта.
+     *
+     * @return список с видами спорта.
+     */
+    List<SportTypeDto> getSportTypes();
+
+    /**
+     * Метод для получения вида спорта по идентификатору.
+     *
+     * @param id идентификатор.
+     * @return информация о виде спорта.
+     * @throws NotFoundException возникает, если вид спорта по переданному идентификатору не найден.
+     */
+    SportTypeDto getSportTypeById(Long id) throws NotFoundException;
+
 }

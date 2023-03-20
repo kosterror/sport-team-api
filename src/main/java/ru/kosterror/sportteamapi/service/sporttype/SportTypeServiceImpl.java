@@ -11,6 +11,9 @@ import ru.kosterror.sportteamapi.mapper.sporttype.SportTypeMapper;
 import ru.kosterror.sportteamapi.model.SportType;
 import ru.kosterror.sportteamapi.repository.SportTypeRepository;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * Класс, реализующий {@link SportTypeService}. Используется для операций {@code CRUD} с {@link SportType}.
  */
@@ -20,6 +23,25 @@ public class SportTypeServiceImpl implements SportTypeService {
 
     private final SportTypeRepository sportTypeRepository;
     private final SportTypeMapper sportTypeMapper;
+
+    @Override
+    public List<SportTypeDto> getSportTypes() {
+        List<SportType> sportTypes = sportTypeRepository.findAll();
+
+        return sportTypes
+                .stream()
+                .map(sportTypeMapper::entityToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public SportTypeDto getSportTypeById(Long id) throws NotFoundException {
+        SportType sportType = sportTypeRepository
+                .findById(id)
+                .orElseThrow(() -> new NotFoundException("Вид спорта с id = '" + id + "' не найден"));
+
+        return sportTypeMapper.entityToDto(sportType);
+    }
 
     @Override
     public SportTypeDto createSportType(NewSportTypeDto newSportTypeDto) throws ConflictException {
@@ -52,10 +74,11 @@ public class SportTypeServiceImpl implements SportTypeService {
 
     @Override
     public void deleteSportType(Long id) throws NotFoundException {
-        if (!sportTypeRepository.existsById(id)){
+        if (!sportTypeRepository.existsById(id)) {
             throw new NotFoundException("Вид спорта с id = '" + id + "' не найден");
         }
 
         sportTypeRepository.deleteById(id);
     }
+
 }
