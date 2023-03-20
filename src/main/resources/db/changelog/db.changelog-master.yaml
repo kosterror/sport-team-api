@@ -7,3 +7,7 @@ databaseChangeLog:
       file: db/changelog/changeset/create-sport-team-table.yaml
   - include:
       file: db/changelog/changeset/create-team-member-table.yaml
+  - include:
+      file: db/changelog/changeset/fix-foreign-key-constraint-sport-team.yaml
+  - include:
+      file: db/changelog/changeset/fix-foreign-key-constraint-team-member.yaml
