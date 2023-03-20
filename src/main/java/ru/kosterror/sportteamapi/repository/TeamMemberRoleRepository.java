@@ -9,4 +9,7 @@ import ru.kosterror.sportteamapi.model.TeamMemberRole;
  */
 @Repository
 public interface TeamMemberRoleRepository extends JpaRepository<TeamMemberRole, Long> {
+
+    boolean existsByName(String name);
+
 }
