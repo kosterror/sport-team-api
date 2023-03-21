@@ -66,4 +66,12 @@ public interface SportTeamService {
             CreateUpdateSportTeamDto createUpdateSportTeamDto
     ) throws NotFoundException, ConflictException;
 
+    /**
+     * Метод для удаления спортивной команды.
+     *
+     * @param id идентификатор спортивной команды.
+     * @throws NotFoundException возникает, если спортивная команда не найдена.
+     */
+    void deleteSportTeam(Long id) throws NotFoundException;
+
 }

@@ -121,4 +121,13 @@ public class SportTeamServiceImpl implements SportTeamService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public void deleteSportTeam(Long id) throws NotFoundException {
+        if (sportTeamRepository.existsById(id)){
+            throw new NotFoundException("Команда с id ='" + id + "' не найдена");
+        }
+
+        sportTeamRepository.deleteById(id);
+    }
+
 }
