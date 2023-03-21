@@ -10,6 +10,12 @@ import ru.kosterror.sportteamapi.model.TeamMemberRole;
 @Repository
 public interface TeamMemberRoleRepository extends JpaRepository<TeamMemberRole, Long> {
 
+    /**
+     * Метод для проверки существует ли роль с таким названием.
+     *
+     * @param name название роли.
+     * @return существует ли такая роль.
+     */
     boolean existsByName(String name);
 
 }
