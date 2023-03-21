@@ -1,5 +1,6 @@
 package ru.kosterror.sportteamapi.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -22,6 +23,7 @@ import java.util.stream.Stream;
  * которые могут дойти до контроллера.
  */
 @ControllerAdvice
+@Slf4j
 public class ExceptionHandlingController extends ResponseEntityExceptionHandler {
 
     private static final String INCORRECT_INPUT_DATA = "Некорректные входные данные";
@@ -45,6 +47,8 @@ public class ExceptionHandlingController extends ResponseEntityExceptionHandler 
                 Stream.of(exception.getMessage()).collect(Collectors.toList())
         );
 
+        logError(request, exception, error.getHttpStatus());
+
         return new ResponseEntity<>(error, error.getHttpStatus());
     }
 
@@ -66,6 +70,8 @@ public class ExceptionHandlingController extends ResponseEntityExceptionHandler 
                 Stream.of(exception.getMessage()).collect(Collectors.toList())
         );
 
+        logError(request, exception, error.getHttpStatus());
+
         return new ResponseEntity<>(error, error.getHttpStatus());
     }
 
@@ -84,6 +90,8 @@ public class ExceptionHandlingController extends ResponseEntityExceptionHandler 
                 INCORRECT_INPUT_DATA,
                 Stream.of(exception.getMessage()).collect(Collectors.toList())
         );
+
+        logError(request, exception, error.getHttpStatus());
 
         return new ResponseEntity<>(error, error.getHttpStatus());
     }
@@ -104,7 +112,26 @@ public class ExceptionHandlingController extends ResponseEntityExceptionHandler 
                 Collections.emptyList()
         );
 
+        logError(request, exception, error.getHttpStatus());
+
         return new ResponseEntity<>(error, error.getHttpStatus());
+    }
+
+    /**
+     * Метод для логирования ошибки.
+     *
+     * @param request    запрос, во время которого выбросилось исключение.
+     * @param exception  исключение, которое выбросилось.
+     * @param httpStatus статус код, который будет в ответе на запрос.
+     */
+    private void logError(HttpServletRequest request, Exception exception, HttpStatus httpStatus) {
+        log.error("Ошибка во время выполнения на URL: {} {}.\nСтатус код: {}.\nТекст исключения: {}.",
+                request.getMethod(),
+                request.getRequestURL(),
+                httpStatus.toString(),
+                exception.getMessage(),
+                exception
+        );
     }
 
 }
