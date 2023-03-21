@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import ru.kosterror.sportteamapi.dto.ApiError;
+import ru.kosterror.sportteamapi.exception.BadRequestException;
 import ru.kosterror.sportteamapi.exception.ConflictException;
 import ru.kosterror.sportteamapi.exception.NotFoundException;
 
@@ -23,6 +24,30 @@ import java.util.stream.Stream;
 @ControllerAdvice
 public class ExceptionHandlingController extends ResponseEntityExceptionHandler {
 
+    private static final String INCORRECT_INPUT_DATA = "Некорректные входные данные";
+    private static final String INTERNAL_SERVER_ERROR = "Внутрення ошибка сервера";
+
+    /**
+     * Метод для отлавливания {@link BadRequestException}.
+     *
+     * @param request   запрос, во время которого выбросилось исключение.
+     * @param exception исключение, которое будет обрабатываться.
+     * @return {@link ApiError}, обернутый в {@link ResponseEntity} с кодом 400.
+     */
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ApiError> handleBadRequestException(HttpServletRequest request,
+                                                              BadRequestException exception
+    ) {
+        ApiError error = new ApiError(
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST,
+                INCORRECT_INPUT_DATA,
+                Stream.of(exception.getMessage()).collect(Collectors.toList())
+        );
+
+        return new ResponseEntity<>(error, error.getHttpStatus());
+    }
+
     /**
      * Метод для отлавливания {@link NotFoundException}.
      *
@@ -37,7 +62,7 @@ public class ExceptionHandlingController extends ResponseEntityExceptionHandler 
         ApiError error = new ApiError(
                 LocalDateTime.now(),
                 HttpStatus.NOT_FOUND,
-                "Некорректные входные данные",
+                INCORRECT_INPUT_DATA,
                 Stream.of(exception.getMessage()).collect(Collectors.toList())
         );
 
@@ -56,7 +81,7 @@ public class ExceptionHandlingController extends ResponseEntityExceptionHandler 
         ApiError error = new ApiError(
                 LocalDateTime.now(),
                 HttpStatus.CONFLICT,
-                "Некорректные входные данные",
+                INCORRECT_INPUT_DATA,
                 Stream.of(exception.getMessage()).collect(Collectors.toList())
         );
 
@@ -75,7 +100,7 @@ public class ExceptionHandlingController extends ResponseEntityExceptionHandler 
         ApiError error = new ApiError(
                 LocalDateTime.now(),
                 HttpStatus.INTERNAL_SERVER_ERROR,
-                "Внутрення ошибка сервера",
+                INTERNAL_SERVER_ERROR,
                 Collections.emptyList()
         );
 
