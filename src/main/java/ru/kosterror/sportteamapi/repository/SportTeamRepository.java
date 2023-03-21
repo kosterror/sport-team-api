@@ -6,6 +6,7 @@ import ru.kosterror.sportteamapi.model.SportTeam;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Интерфейс для взаимодействия с данными в БД, которые представляют собой сущность {@link SportTeam}.
@@ -20,6 +21,14 @@ public interface SportTeamRepository extends JpaRepository<SportTeam, Long> {
      * @return существует ли спортивная команда с заданным именем.
      */
     boolean existsByName(String name);
+
+    /**
+     * Метод для получения команды по её названию.
+     *
+     * @param name название команды.
+     * @return найденная команда.
+     */
+    Optional<SportTeam> findByName(String name);
 
     /**
      * Найти команды, которые основаны в определенный временной промежуток и относятся к перечисленным видам спорта.
