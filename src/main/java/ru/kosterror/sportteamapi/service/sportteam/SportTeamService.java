@@ -26,7 +26,10 @@ public interface SportTeamService {
      * @return список найденных команд, удовлетворяющих условиям.
      * @throws BadRequestException возникает, если входные данные некорректны.
      */
-    List<SportTeamDto> getSportTeams(List<Long> sportTypeIds, Date startDate, Date finishDate) throws BadRequestException;
+    List<SportTeamDto> getSportTeams(List<Long> sportTypeIds,
+                                     Date startDate,
+                                     Date finishDate
+    ) throws BadRequestException;
 
     /**
      * Метод для получения информации о команде по её идентификатору.
@@ -46,6 +49,20 @@ public interface SportTeamService {
      * @throws ConflictException возникает, если название спортивной команды занято.
      */
     SportTeamDto createSportTeam(
+            CreateUpdateSportTeamDto createUpdateSportTeamDto
+    ) throws NotFoundException, ConflictException;
+
+    /**
+     * Метод для обновления данных спортивной команды.
+     *
+     * @param id                       идентификатор обновляемой команды.
+     * @param createUpdateSportTeamDto новая информация о спортивной команде.
+     * @return сохраненная информация о спортивной команде.
+     * @throws NotFoundException возникает, если какая-то указанная информация не найден.
+     * @throws ConflictException возникает, если какая-то указанная информация уже занята.
+     */
+    SportTeamDto updateSportTeam(
+            Long id,
             CreateUpdateSportTeamDto createUpdateSportTeamDto
     ) throws NotFoundException, ConflictException;
 

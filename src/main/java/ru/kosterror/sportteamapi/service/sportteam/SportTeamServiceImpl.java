@@ -15,6 +15,7 @@ import ru.kosterror.sportteamapi.repository.SportTypeRepository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -51,6 +52,36 @@ public class SportTeamServiceImpl implements SportTeamService {
                         createUpdateSportTeamDto.getSportTypeId() + "' не найден"));
 
         SportTeam sportTeam = sportTeamMapper.newSportTeamToEntity(createUpdateSportTeamDto, sportType);
+        sportTeam = sportTeamRepository.save(sportTeam);
+
+        return sportTeamMapper.entityToDto(sportTeam);
+    }
+
+    @Override
+    public SportTeamDto updateSportTeam(Long id,
+                                        CreateUpdateSportTeamDto createUpdateSportTeamDto
+    ) throws NotFoundException, ConflictException {
+        SportTeam sportTeam = sportTeamRepository
+                .findById(id)
+                .orElseThrow(() -> new NotFoundException("Спортивная команда с id = '" + id + "' не найдена"));
+
+        SportType sportType = sportTypeRepository
+                .findById(createUpdateSportTeamDto.getSportTypeId())
+                .orElseThrow(() -> new NotFoundException("Вид спорта с id = '"
+                        + createUpdateSportTeamDto.getSportTypeId() + "' не найден")
+                );
+
+        Optional<SportTeam> sportTeamWithSampleName = sportTeamRepository
+                .findByName(createUpdateSportTeamDto.getName());
+
+        if (sportTeamWithSampleName.isPresent() && !sportTeamWithSampleName.get().getId().equals(id)) {
+            throw new ConflictException("Название спортивной команды = '" + createUpdateSportTeamDto.getName()
+                    + "' уже занято.");
+        }
+
+        sportTeam.setName(createUpdateSportTeamDto.getName());
+        sportTeam.setSportType(sportType);
+        sportTeam.setFoundDate(createUpdateSportTeamDto.getFoundDate());
         sportTeam = sportTeamRepository.save(sportTeam);
 
         return sportTeamMapper.entityToDto(sportTeam);
