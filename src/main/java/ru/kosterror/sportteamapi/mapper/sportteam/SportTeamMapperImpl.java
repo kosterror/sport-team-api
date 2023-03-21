@@ -21,8 +21,7 @@ public class SportTeamMapperImpl implements SportTeamMapper {
     @Override
     public SportTeam newSportTeamToEntity(CreateUpdateSportTeamDto createUpdateSportTeamDto,
                                           SportType sportType) {
-        return SportTeam
-                .builder()
+        return SportTeam.builder()
                 .name(createUpdateSportTeamDto.getName())
                 .sportType(sportType)
                 .foundDate(createUpdateSportTeamDto.getFoundDate())
@@ -31,13 +30,17 @@ public class SportTeamMapperImpl implements SportTeamMapper {
 
     @Override
     public SportTeamDto entityToDto(SportTeam sportTeam) {
-        return SportTeamDto
-                .builder()
+        SportTeamDto sportTeamDto = SportTeamDto.builder()
                 .id(sportTeam.getId())
                 .name(sportTeam.getName())
-                .sportTypeDto(sportTypeMapper.entityToDto(sportTeam.getSportType()))
                 .foundDate(sportTeam.getFoundDate())
                 .build();
+
+        if (sportTeam.getSportType() != null) {
+            sportTeamDto.setSportTypeDto(sportTypeMapper.entityToDto(sportTeam.getSportType()));
+        }
+
+        return sportTeamDto;
     }
 
 }
