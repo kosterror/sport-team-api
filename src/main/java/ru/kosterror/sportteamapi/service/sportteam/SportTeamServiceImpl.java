@@ -2,12 +2,16 @@ package ru.kosterror.sportteamapi.service.sportteam;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.kosterror.sportteamapi.dto.sportteam.CreateUpdateSportTeamDto;
 import ru.kosterror.sportteamapi.dto.sportteam.SportTeamDto;
 import ru.kosterror.sportteamapi.exception.BadRequestException;
+import ru.kosterror.sportteamapi.exception.ConflictException;
 import ru.kosterror.sportteamapi.exception.NotFoundException;
 import ru.kosterror.sportteamapi.mapper.sportteam.SportTeamMapper;
 import ru.kosterror.sportteamapi.model.SportTeam;
+import ru.kosterror.sportteamapi.model.SportType;
 import ru.kosterror.sportteamapi.repository.SportTeamRepository;
+import ru.kosterror.sportteamapi.repository.SportTypeRepository;
 
 import java.util.Date;
 import java.util.List;
@@ -21,6 +25,7 @@ import java.util.stream.Collectors;
 public class SportTeamServiceImpl implements SportTeamService {
 
     private final SportTeamRepository sportTeamRepository;
+    private final SportTypeRepository sportTypeRepository;
     private final SportTeamMapper sportTeamMapper;
 
     @Override
@@ -28,6 +33,25 @@ public class SportTeamServiceImpl implements SportTeamService {
         SportTeam sportTeam = sportTeamRepository
                 .findById(id)
                 .orElseThrow(() -> new NotFoundException("Команда с id = '" + id + "' не найдена"));
+
+        return sportTeamMapper.entityToDto(sportTeam);
+    }
+
+    @Override
+    public SportTeamDto createSportTeam(
+            CreateUpdateSportTeamDto createUpdateSportTeamDto
+    ) throws NotFoundException, ConflictException {
+        if (sportTeamRepository.existsByName(createUpdateSportTeamDto.getName())) {
+            throw new ConflictException("Спортивная команда с таким именем занята");
+        }
+
+        SportType sportType = sportTypeRepository
+                .findById(createUpdateSportTeamDto.getSportTypeId())
+                .orElseThrow(() -> new NotFoundException("Вид спорта с id = '" +
+                        createUpdateSportTeamDto.getSportTypeId() + "' не найден"));
+
+        SportTeam sportTeam = sportTeamMapper.newSportTeamToEntity(createUpdateSportTeamDto, sportType);
+        sportTeam = sportTeamRepository.save(sportTeam);
 
         return sportTeamMapper.entityToDto(sportTeam);
     }

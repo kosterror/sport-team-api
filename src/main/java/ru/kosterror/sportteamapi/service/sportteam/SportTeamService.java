@@ -1,7 +1,9 @@
 package ru.kosterror.sportteamapi.service.sportteam;
 
+import ru.kosterror.sportteamapi.dto.sportteam.CreateUpdateSportTeamDto;
 import ru.kosterror.sportteamapi.dto.sportteam.SportTeamDto;
 import ru.kosterror.sportteamapi.exception.BadRequestException;
+import ru.kosterror.sportteamapi.exception.ConflictException;
 import ru.kosterror.sportteamapi.exception.NotFoundException;
 import ru.kosterror.sportteamapi.model.SportTeam;
 
@@ -34,5 +36,17 @@ public interface SportTeamService {
      * @throws NotFoundException возникает, если команда по идентификатору не найдена.
      */
     SportTeamDto getSportTeamById(Long id) throws NotFoundException;
+
+    /**
+     * Метод для создания и сохранения новой спортивной команды.
+     *
+     * @param createUpdateSportTeamDto данные для создания спортивной команды.
+     * @return информация о созданной спортивной команде.
+     * @throws NotFoundException возникает, если вид спорта по указанному идентификатору не найден.
+     * @throws ConflictException возникает, если название спортивной команды занято.
+     */
+    SportTeamDto createSportTeam(
+            CreateUpdateSportTeamDto createUpdateSportTeamDto
+    ) throws NotFoundException, ConflictException;
 
 }

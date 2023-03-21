@@ -14,6 +14,14 @@ import java.util.List;
 public interface SportTeamRepository extends JpaRepository<SportTeam, Long> {
 
     /**
+     * Метод для проверки существования спортивной команды с заданным именем.
+     *
+     * @param name название команды.
+     * @return существует ли спортивная команда с заданным именем.
+     */
+    boolean existsByName(String name);
+
+    /**
      * Найти команды, которые основаны в определенный временной промежуток и относятся к перечисленным видам спорта.
      *
      * @param sportTypeIds список идентификаторов видов спорта.
