@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.kosterror.sportteamapi.dto.sporttype.SportTypeDto;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * Класс, который хранит в себе информацию о спортивной команде,
@@ -24,6 +24,6 @@ public class SportTeamDto {
 
     private SportTypeDto sportTypeDto;
 
-    private Date foundDate;
+    private LocalDate foundDate;
 
 }

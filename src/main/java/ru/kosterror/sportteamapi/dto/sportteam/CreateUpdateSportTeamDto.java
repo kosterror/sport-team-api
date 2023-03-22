@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * Класс для тел запросов на создание и обновление спортивной команды.
@@ -18,6 +18,6 @@ public class CreateUpdateSportTeamDto {
 
     private Long sportTypeId;
 
-    private Date foundDate;
+    private LocalDate foundDate;
 
 }
