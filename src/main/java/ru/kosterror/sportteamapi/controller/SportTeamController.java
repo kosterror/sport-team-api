@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import ru.kosterror.sportteamapi.dto.ApiError;
 import ru.kosterror.sportteamapi.dto.sportteam.CreateUpdateSportTeamDto;
@@ -22,7 +23,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
- * Контроллер для взаимодействия с {@link SportTeam}.2024-01-01
+ * Контроллер для взаимодействия с {@link SportTeam}.
  */
 @Tag(name = "Работа со спортивными командами.")
 @RestController
@@ -53,8 +54,10 @@ public class SportTeamController {
     })
     @GetMapping
     public List<SportTeamDto> getSportTeams(@RequestParam(required = false) List<Long> sportTypeIds,
-                                            @RequestParam(required = false) LocalDate startDate,
-                                            @RequestParam(required = false) LocalDate finishDate
+                                            @RequestParam(required = false)
+                                            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+                                            @RequestParam(required = false)
+                                            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate finishDate
     ) throws BadRequestException {
         return service.getSportTeams(sportTypeIds, startDate, finishDate);
     }
@@ -77,6 +80,76 @@ public class SportTeamController {
     @GetMapping("/{id}")
     public SportTeamDto getSportTeamById(@PathVariable Long id) throws NotFoundException {
         return service.getSportTeamById(id);
+    }
+
+    /**
+     * Метод для создания и сохранения новой спортивной команды.
+     *
+     * @param createUpdateSportTeamDto данные для создания спортивной команды.
+     * @return информация о созданной спортивной команде.
+     * @throws NotFoundException возникает, если вид спорта по указанному идентификатору не найден.
+     * @throws ConflictException возникает, если название спортивной команды занято.
+     */
+    @Operation(summary = "Добавить команду.")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Команда успешно создана."),
+                    @ApiResponse(responseCode = "404", description = "Указанный вид спорта не найден.",
+                            content = @Content(schema = @Schema(implementation = ApiError.class))),
+                    @ApiResponse(responseCode = "409", description = "Название спортивной команды занято.",
+                            content = @Content(schema = @Schema(implementation = ApiError.class)))
+            }
+    )
+    @PostMapping
+    public SportTeamDto createSportTeam(
+            @RequestBody CreateUpdateSportTeamDto createUpdateSportTeamDto
+    ) throws ConflictException, NotFoundException {
+        return service.createSportTeam(createUpdateSportTeamDto);
+    }
+
+    /**
+     * Метод для обновления данных спортивной команды.
+     *
+     * @param id                       идентификатор обновляемой команды.
+     * @param createUpdateSportTeamDto новая информация о спортивной команде.
+     * @return сохраненная информация о спортивной команде.
+     * @throws NotFoundException возникает, если какая-то указанная информация не найден.
+     * @throws ConflictException возникает, если какая-то указанная информация уже занята.
+     */
+    @Operation(summary = "Изменить данные команды.")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Команда успешно изменена."),
+                    @ApiResponse(responseCode = "404", description = "Данные по указанной информации не найдены.",
+                            content = @Content(schema = @Schema(implementation = ApiError.class))),
+                    @ApiResponse(responseCode = "409", description = "Какие-либо данные заняты другой командой.",
+                            content = @Content(schema = @Schema(implementation = ApiError.class)))
+            }
+    )
+    @PutMapping("/{id}")
+    public SportTeamDto updateSportTeam(@PathVariable Long id,
+                                        @RequestBody CreateUpdateSportTeamDto createUpdateSportTeamDto
+    ) throws ConflictException, NotFoundException {
+        return service.updateSportTeam(id, createUpdateSportTeamDto);
+    }
+
+    /**
+     * Метод для удаления спортивной команды.
+     *
+     * @param id идентификатор спортивной команды.
+     * @throws NotFoundException возникает, если спортивная команда не найдена.
+     */
+    @Operation(summary = "Удалить команду.")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "Команда успешно изменена."),
+                    @ApiResponse(responseCode = "404", description = "Команда не найдена.",
+                            content = @Content(schema = @Schema(implementation = ApiError.class)))
+            }
+    )
+    @DeleteMapping("{id}")
+    public void deleteSportTeam(@PathVariable Long id) throws NotFoundException {
+        service.deleteSportTeam(id);
     }
 
 }
