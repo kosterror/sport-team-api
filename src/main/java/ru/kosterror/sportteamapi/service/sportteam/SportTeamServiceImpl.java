@@ -123,7 +123,7 @@ public class SportTeamServiceImpl implements SportTeamService {
 
     @Override
     public void deleteSportTeam(Long id) throws NotFoundException {
-        if (sportTeamRepository.existsById(id)){
+        if (!sportTeamRepository.existsById(id)){
             throw new NotFoundException("Команда с id ='" + id + "' не найдена");
         }
 
