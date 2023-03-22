@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.kosterror.sportteamapi.dto.sportteam.SportTeamDto;
 import ru.kosterror.sportteamapi.model.TeamMember;
 
 /**
@@ -17,6 +18,6 @@ public class TeamMemberDto {
 
     BasicTeamMemberDto teamMember;
 
-    TeamDetailsDto teamDetails;
+    SportTeamDto team;
 
 }

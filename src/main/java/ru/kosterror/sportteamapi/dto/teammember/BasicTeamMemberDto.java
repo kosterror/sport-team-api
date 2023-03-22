@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.kosterror.sportteamapi.dto.teammemberrole.TeamMemberRoleDto;
 import ru.kosterror.sportteamapi.model.TeamMember;
 
 import java.time.LocalDate;
@@ -26,5 +27,7 @@ public class BasicTeamMemberDto {
     private String patronymic;
 
     private LocalDate birthDate;
+
+    private TeamMemberRoleDto role;
 
 }
