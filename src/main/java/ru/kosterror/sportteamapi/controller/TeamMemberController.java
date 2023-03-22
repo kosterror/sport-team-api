@@ -21,7 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/team-members")
 @RequiredArgsConstructor
-@Tag(name = "Работа с участниками спортивных команд.")
+@Tag(name = "Работа с участниками спортивных команд")
 public class TeamMemberController {
 
     private final TeamMemberService service;
@@ -148,6 +148,23 @@ public class TeamMemberController {
             @RequestBody MoveMemberDto moveMemberDto
     ) throws NotFoundException {
         return service.moveTeamMember(id, moveMemberDto);
+    }
+
+    /**
+     * Метод для удаления участника.
+     *
+     * @param id идентификатор участника.
+     * @throws NotFoundException возникает, если участник не найден.
+     */
+    @Operation(summary = "Удалить участника.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Участник успешно удален."),
+            @ApiResponse(responseCode = "404", description = "Участник не найден.",
+                    content = @Content(schema = @Schema(implementation = ApiError.class)))
+    })
+    @DeleteMapping("/{id}")
+    public void deleteTeamMember(@PathVariable Long id) throws NotFoundException {
+        service.deleteTeamMember(id);
     }
 
 }

@@ -146,4 +146,14 @@ public class TeamMemberServiceImpl implements TeamMemberService {
 
         return teamMemberMapper.entityToDto(teamMember);
     }
+
+    @Override
+    public void deleteTeamMember(Long id) throws NotFoundException {
+        if (!teamMemberRepository.existsById(id)){
+            throw new NotFoundException("Участник с id = '" + id + "' не найден.");
+        }
+
+        teamMemberRepository.deleteById(id);
+    }
+
 }

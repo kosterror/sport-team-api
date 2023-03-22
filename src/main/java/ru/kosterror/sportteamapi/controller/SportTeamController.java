@@ -25,7 +25,7 @@ import java.util.List;
 /**
  * Контроллер для взаимодействия с {@link SportTeam}.
  */
-@Tag(name = "Работа со спортивными командами.")
+@Tag(name = "Работа со спортивными командами")
 @RestController
 @RequestMapping("/api/sport-teams")
 @RequiredArgsConstructor

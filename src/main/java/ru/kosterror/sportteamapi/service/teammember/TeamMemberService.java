@@ -72,4 +72,12 @@ public interface TeamMemberService {
      * @throws NotFoundException возникает, если не удалось найти участника и/или команду.
      */
     TeamMemberDto moveTeamMember(Long id, MoveMemberDto moveMemberDto) throws NotFoundException;
+
+    /**
+     * Метод для удаления участника.
+     *
+     * @param id идентификатор участника.
+     * @throws NotFoundException возникает, если участник не найден.
+     */
+    void deleteTeamMember(Long id) throws NotFoundException;
 }
