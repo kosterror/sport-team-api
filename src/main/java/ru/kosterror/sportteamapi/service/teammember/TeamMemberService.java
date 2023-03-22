@@ -50,4 +50,15 @@ public interface TeamMemberService {
      * @throws NotFoundException возникает, если по идентификатору команды и/или роли не удалось найти информации.
      */
     TeamMemberDto createTeamMember(CreateUpdateTeamMemberDto createUpdateTeamMemberDto) throws NotFoundException;
+
+    /**
+     * Метод для изменения данных участника команды.
+     *
+     * @param createUpdateTeamMemberDto новая информация об участнике.
+     * @return новая сохраненная информация.
+     * @throws NotFoundException возникает, если какая-либо информация по указанным идентификаторам не найдена.
+     */
+    TeamMemberDto updateTeamMember(Long id,
+                                   CreateUpdateTeamMemberDto createUpdateTeamMemberDto
+    ) throws NotFoundException;
 }

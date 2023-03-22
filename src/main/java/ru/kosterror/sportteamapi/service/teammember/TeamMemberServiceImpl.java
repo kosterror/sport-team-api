@@ -99,4 +99,33 @@ public class TeamMemberServiceImpl implements TeamMemberService {
         return teamMemberMapper.entityToDto(teamMember);
     }
 
+    @Override
+    public TeamMemberDto updateTeamMember(Long id,
+                                          CreateUpdateTeamMemberDto createUpdateTeamMemberDto
+    ) throws NotFoundException {
+        TeamMember teamMember = teamMemberRepository
+                .findById(id)
+                .orElseThrow(() -> new NotFoundException("Участник с id = '" + id + "' не найден."));
+
+        SportTeam sportTeam = sportTeamRepository
+                .findById(createUpdateTeamMemberDto.getTeamId())
+                .orElseThrow(() -> new NotFoundException("Команда с id = '" + createUpdateTeamMemberDto.getTeamId() +
+                        "' не найдена"));
+
+        TeamMemberRole memberRole = teamMemberRoleRepository
+                .findById(createUpdateTeamMemberDto.getRoleId())
+                .orElseThrow(() -> new NotFoundException("Роль с id = '" + createUpdateTeamMemberDto.getTeamId() +
+                        "' не найдена"));
+
+        teamMember.setSportTeam(sportTeam);
+        teamMember.setName(createUpdateTeamMemberDto.getName());
+        teamMember.setSurname(createUpdateTeamMemberDto.getSurname());
+        teamMember.setPatronymic(createUpdateTeamMemberDto.getPatronymic());
+        teamMember.setBirthDate(createUpdateTeamMemberDto.getBirthDate());
+        teamMember.setRole(memberRole);
+
+        teamMember = teamMemberRepository.save(teamMember);
+
+        return teamMemberMapper.entityToDto(teamMember);
+    }
 }

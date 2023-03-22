@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.kosterror.sportteamapi.dto.ApiError;
@@ -19,6 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/team-members")
 @RequiredArgsConstructor
+@Tag(name = "Работа с участниками спортивных команд.")
 public class TeamMemberController {
 
     private final TeamMemberService service;
@@ -101,6 +103,28 @@ public class TeamMemberController {
             @RequestBody CreateUpdateTeamMemberDto createUpdateTeamMemberDto
     ) throws NotFoundException {
         return service.createTeamMember(createUpdateTeamMemberDto);
+    }
+
+    /**
+     * Метод для изменения данных участника команды.
+     *
+     * @param createUpdateTeamMemberDto новая информация об участнике.
+     * @return новая сохраненная информация.
+     * @throws NotFoundException возникает, если какая-либо информация по указанным идентификаторам не найдена.
+     */
+    @Operation(summary = "Изменить участника.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Участник успешно изменен."),
+            @ApiResponse(responseCode = "404", description = "Не удалось найти участника и/или команду и/или роль " +
+                    "по заданным значениям для изменения участника.",
+                    content = @Content(schema = @Schema(implementation = ApiError.class)))
+    })
+    @PutMapping("/{id}")
+    public TeamMemberDto updateTeamMember(
+            @PathVariable Long id,
+            @RequestBody CreateUpdateTeamMemberDto createUpdateTeamMemberDto
+    ) throws NotFoundException {
+        return service.updateTeamMember(id, createUpdateTeamMemberDto);
     }
 
 }
