@@ -1,5 +1,6 @@
 package ru.kosterror.sportteamapi.service.teammember;
 
+import ru.kosterror.sportteamapi.dto.teammember.BasicTeamMemberDto;
 import ru.kosterror.sportteamapi.dto.teammember.TeamMemberDto;
 import ru.kosterror.sportteamapi.exception.NotFoundException;
 import ru.kosterror.sportteamapi.model.TeamMember;
@@ -14,7 +15,7 @@ public interface TeamMemberService {
     /**
      * Метод для получения участников с определенными параметрами.
      *
-     * @param sportTeamIds список идентификаторов доступных команд.
+     * @param sportTeamIds      список идентификаторов доступных команд.
      * @param teamMemberRoleIds список идентификаторов доступных ролей.
      * @return список подходящий участников.
      */
@@ -29,4 +30,14 @@ public interface TeamMemberService {
      */
     TeamMemberDto getTeamMember(Long id) throws NotFoundException;
 
+    /**
+     * Метод для получения участников команд, которые относятся к конкретной спортивной команде. Есть возможность
+     * отфильтровать участников по роли.
+     *
+     * @param sportTeamId      идентификатор спортивной команды. Не может быть {@code null}.
+     * @param teamMemberRoleId идентификатор роли, может быть {@code null}.
+     * @return список подходящих участников.
+     * @throws NotFoundException возникает, если спортивной команды или роли не существует.
+     */
+    List<BasicTeamMemberDto> getTeamMembersByTeam(Long sportTeamId, Long teamMemberRoleId) throws NotFoundException;
 }

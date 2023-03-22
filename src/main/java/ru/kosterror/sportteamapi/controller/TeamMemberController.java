@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.kosterror.sportteamapi.dto.ApiError;
+import ru.kosterror.sportteamapi.dto.teammember.BasicTeamMemberDto;
 import ru.kosterror.sportteamapi.dto.teammember.TeamMemberDto;
 import ru.kosterror.sportteamapi.exception.NotFoundException;
 import ru.kosterror.sportteamapi.service.teammember.TeamMemberService;
@@ -24,7 +25,7 @@ public class TeamMemberController {
     /**
      * Метод для получения участников с определенными параметрами.
      *
-     * @param sportTeamIds список идентификаторов доступных команд.
+     * @param sportTeamIds      список идентификаторов доступных команд.
      * @param teamMemberRoleIds список идентификаторов доступных ролей.
      * @return список подходящий участников.
      */
@@ -37,6 +38,29 @@ public class TeamMemberController {
     public List<TeamMemberDto> getTeamMembers(@RequestParam(required = false) List<Long> sportTeamIds,
                                               @RequestParam(required = false) List<Long> teamMemberRoleIds) {
         return service.getTeamMembers(sportTeamIds, teamMemberRoleIds);
+    }
+
+    /**
+     * Метод для получения участников команд, которые относятся к конкретной спортивной команде. Есть возможность
+     * отфильтровать участников по роли.
+     *
+     * @param sportTeamId      идентификатор спортивной команды. Не может быть {@code null}.
+     * @param teamMemberRoleId идентификатор роли, может быть {@code null}.
+     * @return список подходящих участников.
+     * @throws NotFoundException возникает, если спортивной команды или роли не существует.
+     */
+    @Operation(summary = "Получить всех участников конкретной команды.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Данные успешно получены."),
+            @ApiResponse(responseCode = "404", description = "Не удалось найти команду и/или роль " +
+                    "участника по заданным значениям",
+                    content = @Content(schema = @Schema(implementation = ApiError.class)))
+    })
+    @GetMapping("/sport-teams/{id}")
+    public List<BasicTeamMemberDto> getTeamMembersByTeam(@PathVariable(name = "id") Long sportTeamId,
+                                                         @RequestParam(required = false) Long teamMemberRoleId
+    ) throws NotFoundException {
+        return service.getTeamMembersByTeam(sportTeamId, teamMemberRoleId);
     }
 
     /**
