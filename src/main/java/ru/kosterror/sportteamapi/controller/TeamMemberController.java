@@ -15,12 +15,27 @@ import ru.kosterror.sportteamapi.dto.teammember.TeamMemberDto;
 import ru.kosterror.sportteamapi.exception.NotFoundException;
 import ru.kosterror.sportteamapi.service.teammember.TeamMemberService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/team-members")
 @RequiredArgsConstructor
 public class TeamMemberController {
 
     private final TeamMemberService service;
+
+    /**
+     * Метод для получения всех существующих участников.
+     *
+     * @return список всех участников.
+     */
+    @Operation(summary = "Получить всех существующих участников.", description = "Они не должны относиться к одной " +
+            "команде, или вообще относиться к команде.")
+    @ApiResponse(responseCode = "200", description = "Данные успешно получены.")
+    @GetMapping
+    public List<TeamMemberDto> getTeamMembers() {
+        return service.getTeamMembers();
+    }
 
     /**
      * Метод для получения участника команды по идентификатору.

@@ -8,6 +8,9 @@ import ru.kosterror.sportteamapi.mapper.teammember.TeamMemberMapper;
 import ru.kosterror.sportteamapi.model.TeamMember;
 import ru.kosterror.sportteamapi.repository.TeamMemberRepository;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * Класс, реализующий {@link TeamMemberService}. Используется для взаимодействия с {@link TeamMember}.
  */
@@ -17,6 +20,15 @@ public class TeamMemberServiceImpl implements TeamMemberService {
 
     private final TeamMemberRepository teamMemberRepository;
     private final TeamMemberMapper teamMemberMapper;
+
+    @Override
+    public List<TeamMemberDto> getTeamMembers() {
+        return teamMemberRepository
+                .findAll()
+                .stream()
+                .map(teamMemberMapper::entityToDto)
+                .collect(Collectors.toList());
+    }
 
     @Override
     public TeamMemberDto getTeamMember(Long id) throws NotFoundException {
