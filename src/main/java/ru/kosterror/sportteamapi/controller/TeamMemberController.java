@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.kosterror.sportteamapi.dto.ApiError;
 import ru.kosterror.sportteamapi.dto.teammember.BasicTeamMemberDto;
 import ru.kosterror.sportteamapi.dto.teammember.CreateUpdateTeamMemberDto;
+import ru.kosterror.sportteamapi.dto.teammember.MoveMemberDto;
 import ru.kosterror.sportteamapi.dto.teammember.TeamMemberDto;
 import ru.kosterror.sportteamapi.exception.NotFoundException;
 import ru.kosterror.sportteamapi.service.teammember.TeamMemberService;
@@ -119,12 +120,34 @@ public class TeamMemberController {
                     "по заданным значениям для изменения участника.",
                     content = @Content(schema = @Schema(implementation = ApiError.class)))
     })
-    @PutMapping("/{id}")
+    @PutMapping("/{id}/update")
     public TeamMemberDto updateTeamMember(
             @PathVariable Long id,
             @RequestBody CreateUpdateTeamMemberDto createUpdateTeamMemberDto
     ) throws NotFoundException {
         return service.updateTeamMember(id, createUpdateTeamMemberDto);
+    }
+
+    /**
+     * Метод для перевода участника в другую спортивную команду.
+     *
+     * @param id            идентификатор участника.
+     * @param moveMemberDto данные о новой команде.
+     * @return обновленная информация об участнике команды.
+     * @throws NotFoundException возникает, если не удалось найти участника и/или команду.
+     */
+    @Operation(summary = "Перевести участника в другую команду.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Участник успешно переведен."),
+            @ApiResponse(responseCode = "404", description = "Участник и/или команда не найдены.",
+                    content = @Content(schema = @Schema(implementation = ApiError.class)))
+    })
+    @PutMapping("/{id}/move")
+    public TeamMemberDto moveTeamMember(
+            @PathVariable Long id,
+            @RequestBody MoveMemberDto moveMemberDto
+    ) throws NotFoundException {
+        return service.moveTeamMember(id, moveMemberDto);
     }
 
 }

@@ -2,6 +2,7 @@ package ru.kosterror.sportteamapi.service.teammember;
 
 import ru.kosterror.sportteamapi.dto.teammember.BasicTeamMemberDto;
 import ru.kosterror.sportteamapi.dto.teammember.CreateUpdateTeamMemberDto;
+import ru.kosterror.sportteamapi.dto.teammember.MoveMemberDto;
 import ru.kosterror.sportteamapi.dto.teammember.TeamMemberDto;
 import ru.kosterror.sportteamapi.exception.NotFoundException;
 import ru.kosterror.sportteamapi.model.TeamMember;
@@ -61,4 +62,14 @@ public interface TeamMemberService {
     TeamMemberDto updateTeamMember(Long id,
                                    CreateUpdateTeamMemberDto createUpdateTeamMemberDto
     ) throws NotFoundException;
+
+    /**
+     * Метод для перевода участника в другую спортивную команду.
+     *
+     * @param id            идентификатор участника.
+     * @param moveMemberDto данные о новой команде.
+     * @return обновленная информация об участнике команды.
+     * @throws NotFoundException возникает, если не удалось найти участника и/или команду.
+     */
+    TeamMemberDto moveTeamMember(Long id, MoveMemberDto moveMemberDto) throws NotFoundException;
 }

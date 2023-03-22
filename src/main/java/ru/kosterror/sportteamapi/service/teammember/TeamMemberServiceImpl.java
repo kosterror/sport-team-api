@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.kosterror.sportteamapi.dto.teammember.BasicTeamMemberDto;
 import ru.kosterror.sportteamapi.dto.teammember.CreateUpdateTeamMemberDto;
+import ru.kosterror.sportteamapi.dto.teammember.MoveMemberDto;
 import ru.kosterror.sportteamapi.dto.teammember.TeamMemberDto;
 import ru.kosterror.sportteamapi.exception.NotFoundException;
 import ru.kosterror.sportteamapi.mapper.teammember.TeamMemberMapper;
@@ -124,6 +125,23 @@ public class TeamMemberServiceImpl implements TeamMemberService {
         teamMember.setBirthDate(createUpdateTeamMemberDto.getBirthDate());
         teamMember.setRole(memberRole);
 
+        teamMember = teamMemberRepository.save(teamMember);
+
+        return teamMemberMapper.entityToDto(teamMember);
+    }
+
+    @Override
+    public TeamMemberDto moveTeamMember(Long id, MoveMemberDto moveMemberDto) throws NotFoundException {
+        TeamMember teamMember = teamMemberRepository
+                .findById(id)
+                .orElseThrow(() -> new NotFoundException("Участник с id = '" + id + "' не найден."));
+
+        SportTeam sportTeam = sportTeamRepository
+                .findById(moveMemberDto.getSportTeamId())
+                .orElseThrow(() -> new NotFoundException("Команда с id = '" + moveMemberDto.getSportTeamId() +
+                        "' не найдена"));
+
+        teamMember.setSportTeam(sportTeam);
         teamMember = teamMemberRepository.save(teamMember);
 
         return teamMemberMapper.entityToDto(teamMember);
