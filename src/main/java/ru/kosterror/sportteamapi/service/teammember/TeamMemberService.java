@@ -12,11 +12,13 @@ import java.util.List;
 public interface TeamMemberService {
 
     /**
-     * Метод для получения всех существующих участников.
+     * Метод для получения участников с определенными параметрами.
      *
-     * @return список всех участников.
+     * @param sportTeamIds список идентификаторов доступных команд.
+     * @param teamMemberRoleIds список идентификаторов доступных ролей.
+     * @return список подходящий участников.
      */
-    List<TeamMemberDto> getTeamMembers();
+    List<TeamMemberDto> getTeamMembers(List<Long> sportTeamIds, List<Long> teamMemberRoleIds);
 
     /**
      * Метод для получения участника команды по идентификатору.

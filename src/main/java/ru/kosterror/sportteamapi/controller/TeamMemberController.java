@@ -6,10 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.kosterror.sportteamapi.dto.ApiError;
 import ru.kosterror.sportteamapi.dto.teammember.TeamMemberDto;
 import ru.kosterror.sportteamapi.exception.NotFoundException;
@@ -25,16 +22,21 @@ public class TeamMemberController {
     private final TeamMemberService service;
 
     /**
-     * Метод для получения всех существующих участников.
+     * Метод для получения участников с определенными параметрами.
      *
-     * @return список всех участников.
+     * @param sportTeamIds список идентификаторов доступных команд.
+     * @param teamMemberRoleIds список идентификаторов доступных ролей.
+     * @return список подходящий участников.
      */
-    @Operation(summary = "Получить всех существующих участников.", description = "Они не должны относиться к одной " +
-            "команде, или вообще относиться к команде.")
+    @Operation(summary = "Получить всех участников.", description = "Параметры необязательны. Если перечислены " +
+            "идентификаторы команд, то в результате будет список с участниками, которые относятся только к этим " +
+            "командам. Если указаны идентификаторы ролей, то список участников сможет содержать только тех " +
+            "участников, которые имеют одну из заданных ролей. Параметры могут дополнять друг друга.")
     @ApiResponse(responseCode = "200", description = "Данные успешно получены.")
     @GetMapping
-    public List<TeamMemberDto> getTeamMembers() {
-        return service.getTeamMembers();
+    public List<TeamMemberDto> getTeamMembers(@RequestParam(required = false) List<Long> sportTeamIds,
+                                              @RequestParam(required = false) List<Long> teamMemberRoleIds) {
+        return service.getTeamMembers(sportTeamIds, teamMemberRoleIds);
     }
 
     /**

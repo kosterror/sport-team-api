@@ -22,9 +22,21 @@ public class TeamMemberServiceImpl implements TeamMemberService {
     private final TeamMemberMapper teamMemberMapper;
 
     @Override
-    public List<TeamMemberDto> getTeamMembers() {
-        return teamMemberRepository
-                .findAll()
+    public List<TeamMemberDto> getTeamMembers(List<Long> sportTeamIds, List<Long> teamMemberRoleIds) {
+        List<TeamMember> teamMembers;
+
+        if (sportTeamIds != null && teamMemberRoleIds != null) {
+            teamMembers = teamMemberRepository
+                    .findTeamMembersBySportTeamIdInAndRoleIdIn(sportTeamIds, teamMemberRoleIds);
+        } else if (sportTeamIds != null) {
+            teamMembers = teamMemberRepository.findTeamMembersBySportTeamIdIn(sportTeamIds);
+        } else if (teamMemberRoleIds != null) {
+            teamMembers = teamMemberRepository.findTeamMembersByRoleIdIn(teamMemberRoleIds);
+        } else {
+            teamMembers = teamMemberRepository.findAll();
+        }
+
+        return teamMembers
                 .stream()
                 .map(teamMemberMapper::entityToDto)
                 .collect(Collectors.toList());
