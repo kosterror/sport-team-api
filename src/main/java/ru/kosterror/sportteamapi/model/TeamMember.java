@@ -3,7 +3,7 @@ package ru.kosterror.sportteamapi.model;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * Класс для хранения данных в БД об участнике спортивной команды.
@@ -31,9 +31,8 @@ public class TeamMember {
 
     private String patronymic;
 
-    @Temporal(TemporalType.DATE)
     @Column(name = "date_of_birth")
-    private Date birthDate;
+    private LocalDate birthDate;
 
     @ManyToOne
     private TeamMemberRole role;

@@ -8,16 +8,17 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import ru.kosterror.sportteamapi.dto.ApiError;
+import ru.kosterror.sportteamapi.dto.sportteam.CreateUpdateSportTeamDto;
 import ru.kosterror.sportteamapi.dto.sportteam.SportTeamDto;
 import ru.kosterror.sportteamapi.exception.BadRequestException;
+import ru.kosterror.sportteamapi.exception.ConflictException;
 import ru.kosterror.sportteamapi.exception.NotFoundException;
 import ru.kosterror.sportteamapi.model.SportTeam;
 import ru.kosterror.sportteamapi.service.sportteam.SportTeamService;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -52,10 +53,8 @@ public class SportTeamController {
     })
     @GetMapping
     public List<SportTeamDto> getSportTeams(@RequestParam(required = false) List<Long> sportTypeIds,
-                                            @RequestParam(required = false)
-                                            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
-                                            @RequestParam(required = false)
-                                            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date finishDate
+                                            @RequestParam(required = false) LocalDate startDate,
+                                            @RequestParam(required = false) LocalDate finishDate
     ) throws BadRequestException {
         return service.getSportTeams(sportTypeIds, startDate, finishDate);
     }
@@ -67,7 +66,7 @@ public class SportTeamController {
      * @return информацию о команде.
      * @throws NotFoundException возникает, если команда по идентификатору не найдена.
      */
-    @Operation(summary = "Получить вид спорта по идентификатору.")
+    @Operation(summary = "Получить спортивную команду по идентификатору.")
     @ApiResponses(
             value = {
                     @ApiResponse(responseCode = "200", description = "Данные были получены успешно."),

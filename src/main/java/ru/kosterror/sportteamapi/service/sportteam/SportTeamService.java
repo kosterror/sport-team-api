@@ -7,7 +7,7 @@ import ru.kosterror.sportteamapi.exception.ConflictException;
 import ru.kosterror.sportteamapi.exception.NotFoundException;
 import ru.kosterror.sportteamapi.model.SportTeam;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -27,8 +27,8 @@ public interface SportTeamService {
      * @throws BadRequestException возникает, если входные данные некорректны.
      */
     List<SportTeamDto> getSportTeams(List<Long> sportTypeIds,
-                                     Date startDate,
-                                     Date finishDate
+                                     LocalDate startDate,
+                                     LocalDate finishDate
     ) throws BadRequestException;
 
     /**

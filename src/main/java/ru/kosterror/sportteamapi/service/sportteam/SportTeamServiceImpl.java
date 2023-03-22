@@ -13,7 +13,7 @@ import ru.kosterror.sportteamapi.model.SportType;
 import ru.kosterror.sportteamapi.repository.SportTeamRepository;
 import ru.kosterror.sportteamapi.repository.SportTypeRepository;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -89,14 +89,14 @@ public class SportTeamServiceImpl implements SportTeamService {
 
     @Override
     public List<SportTeamDto> getSportTeams(List<Long> sportTypeIds,
-                                            Date startDate,
-                                            Date finishDate
+                                            LocalDate startDate,
+                                            LocalDate finishDate
     ) throws BadRequestException {
         if (startDate != null && finishDate == null || startDate == null && finishDate != null) {
             throw new BadRequestException("Необходимо одновременно заполнить или не заполнить поля с датами");
         }
 
-        if (startDate != null && startDate.after(finishDate)) {
+        if (startDate != null && startDate.isAfter(finishDate)) {
             throw new BadRequestException("Начальная дата должна быть меньше конечной даты");
         }
 

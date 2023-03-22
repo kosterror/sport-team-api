@@ -3,7 +3,7 @@ package ru.kosterror.sportteamapi.model;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -30,9 +30,8 @@ public class SportTeam {
     @JoinColumn(name = "sport_type_id", nullable = false)
     private SportType sportType;
 
-    @Temporal(TemporalType.DATE)
     @Column(name = "date_of_foundation")
-    private Date foundDate;
+    private LocalDate foundDate;
 
     @OneToMany(mappedBy = "sportTeam", fetch = FetchType.EAGER)
     private List<TeamMember> members;
