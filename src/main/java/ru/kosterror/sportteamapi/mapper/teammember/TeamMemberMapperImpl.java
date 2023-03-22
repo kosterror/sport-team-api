@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.kosterror.sportteamapi.dto.sportteam.SportTeamDto;
 import ru.kosterror.sportteamapi.dto.teammember.BasicTeamMemberDto;
+import ru.kosterror.sportteamapi.dto.teammember.CreateUpdateTeamMemberDto;
 import ru.kosterror.sportteamapi.dto.teammember.TeamMemberDto;
 import ru.kosterror.sportteamapi.dto.teammemberrole.TeamMemberRoleDto;
 import ru.kosterror.sportteamapi.mapper.sportteam.SportTeamMapper;
@@ -51,6 +52,22 @@ public class TeamMemberMapperImpl implements TeamMemberMapper {
                 .patronymic(teamMember.getPatronymic())
                 .birthDate(teamMember.getBirthDate())
                 .role(roleDto)
+                .build();
+    }
+
+    @Override
+    public TeamMember createDtoToEntity(CreateUpdateTeamMemberDto createUpdateTeamMemberDto,
+                                        TeamMemberRole memberRole,
+                                        SportTeam sportTeam
+    ) {
+        return TeamMember
+                .builder()
+                .sportTeam(sportTeam)
+                .name(createUpdateTeamMemberDto.getName())
+                .surname(createUpdateTeamMemberDto.getSurname())
+                .patronymic(createUpdateTeamMemberDto.getPatronymic())
+                .birthDate(createUpdateTeamMemberDto.getBirthDate())
+                .role(memberRole)
                 .build();
     }
 
