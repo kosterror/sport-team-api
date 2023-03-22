@@ -1,6 +1,7 @@
 package ru.kosterror.sportteamapi.service.teammember;
 
 import ru.kosterror.sportteamapi.dto.teammember.BasicTeamMemberDto;
+import ru.kosterror.sportteamapi.dto.teammember.CreateUpdateTeamMemberDto;
 import ru.kosterror.sportteamapi.dto.teammember.TeamMemberDto;
 import ru.kosterror.sportteamapi.exception.NotFoundException;
 import ru.kosterror.sportteamapi.model.TeamMember;
@@ -40,4 +41,13 @@ public interface TeamMemberService {
      * @throws NotFoundException возникает, если спортивной команды или роли не существует.
      */
     List<BasicTeamMemberDto> getTeamMembersByTeam(Long sportTeamId, Long teamMemberRoleId) throws NotFoundException;
+
+    /**
+     * Метод для создания участника команды.
+     *
+     * @param createUpdateTeamMemberDto информация для создания участника.
+     * @return сохраненной информация о созданном участнике команды.
+     * @throws NotFoundException возникает, если по идентификатору команды и/или роли не удалось найти информации.
+     */
+    TeamMemberDto createTeamMember(CreateUpdateTeamMemberDto createUpdateTeamMemberDto) throws NotFoundException;
 }

@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.kosterror.sportteamapi.dto.ApiError;
 import ru.kosterror.sportteamapi.dto.teammember.BasicTeamMemberDto;
+import ru.kosterror.sportteamapi.dto.teammember.CreateUpdateTeamMemberDto;
 import ru.kosterror.sportteamapi.dto.teammember.TeamMemberDto;
 import ru.kosterror.sportteamapi.exception.NotFoundException;
 import ru.kosterror.sportteamapi.service.teammember.TeamMemberService;
@@ -73,12 +74,33 @@ public class TeamMemberController {
     @Operation(summary = "Получить участника команды по идентификатору.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Данные успешно получены."),
-            @ApiResponse(responseCode = "404", description = "Участник с таким идентификатором не найден",
+            @ApiResponse(responseCode = "404", description = "Участник с таким идентификатором не найден.",
                     content = @Content(schema = @Schema(implementation = ApiError.class)))
     })
     @GetMapping("/{id}")
     public TeamMemberDto getTeamMember(@PathVariable Long id) throws NotFoundException {
         return service.getTeamMember(id);
+    }
+
+    /**
+     * Метод для создания участника команды.
+     *
+     * @param createUpdateTeamMemberDto информация для создания участника.
+     * @return сохраненной информация о созданном участнике команды.
+     * @throws NotFoundException возникает, если по идентификатору команды и/или роли не удалось найти информации.
+     */
+    @Operation(summary = "Создать участника.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Участник успешно создан."),
+            @ApiResponse(responseCode = "404", description = "Не удалось найти команду и/или роль " +
+                    "по заданным значениям для создания участника.",
+                    content = @Content(schema = @Schema(implementation = ApiError.class)))
+    })
+    @PostMapping
+    public TeamMemberDto createTeamMember(
+            @RequestBody CreateUpdateTeamMemberDto createUpdateTeamMemberDto
+    ) throws NotFoundException {
+        return service.createTeamMember(createUpdateTeamMemberDto);
     }
 
 }

@@ -3,12 +3,16 @@ package ru.kosterror.sportteamapi.service.teammember;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.kosterror.sportteamapi.dto.teammember.BasicTeamMemberDto;
+import ru.kosterror.sportteamapi.dto.teammember.CreateUpdateTeamMemberDto;
 import ru.kosterror.sportteamapi.dto.teammember.TeamMemberDto;
 import ru.kosterror.sportteamapi.exception.NotFoundException;
 import ru.kosterror.sportteamapi.mapper.teammember.TeamMemberMapper;
+import ru.kosterror.sportteamapi.model.SportTeam;
 import ru.kosterror.sportteamapi.model.TeamMember;
+import ru.kosterror.sportteamapi.model.TeamMemberRole;
 import ru.kosterror.sportteamapi.repository.SportTeamRepository;
 import ru.kosterror.sportteamapi.repository.TeamMemberRepository;
+import ru.kosterror.sportteamapi.repository.TeamMemberRoleRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,6 +26,7 @@ public class TeamMemberServiceImpl implements TeamMemberService {
 
     private final TeamMemberRepository teamMemberRepository;
     private final SportTeamRepository sportTeamRepository;
+    private final TeamMemberRoleRepository teamMemberRoleRepository;
     private final TeamMemberMapper teamMemberMapper;
 
     @Override
@@ -74,6 +79,24 @@ public class TeamMemberServiceImpl implements TeamMemberService {
                 .stream()
                 .map(teamMemberMapper::entityToBasicDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public TeamMemberDto createTeamMember(
+            CreateUpdateTeamMemberDto createUpdateTeamMemberDto
+    ) throws NotFoundException {
+        TeamMemberRole memberRole = teamMemberRoleRepository
+                .findById(createUpdateTeamMemberDto.getRoleId())
+                .orElseThrow(() -> new NotFoundException("Роль по заданному идентификатору не найдена"));
+
+        SportTeam sportTeam = sportTeamRepository
+                .findById(createUpdateTeamMemberDto.getTeamId())
+                .orElseThrow(() -> new NotFoundException("Команда по заданному идентификатору не найдена"));
+
+        TeamMember teamMember = teamMemberMapper.createDtoToEntity(createUpdateTeamMemberDto, memberRole, sportTeam);
+        teamMember = teamMemberRepository.save(teamMember);
+
+        return teamMemberMapper.entityToDto(teamMember);
     }
 
 }
