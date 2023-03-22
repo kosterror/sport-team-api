@@ -38,4 +38,21 @@ public interface TeamMemberRepository extends JpaRepository<TeamMember, Long> {
      */
     List<TeamMember> findTeamMembersByRoleIdIn(List<Long> roleIds);
 
+    /**
+     * Метод для получения участников, которые относятся к конкретной команде.
+     *
+     * @param id идентификатор команды.
+     * @return список подходящих участников.
+     */
+    List<TeamMember> findBySportTeamId(Long id);
+
+    /**
+     * Метод для получения участников, которые относятся к конкретной команде и имеют конкретную роль.
+     *
+     * @param sportTeamId идентификатор команды.
+     * @param roleId      идентификатор роли.
+     * @return список подходящих участников.
+     */
+    List<TeamMember> findBySportTeamIdAndRoleId(Long sportTeamId, Long roleId);
+
 }
