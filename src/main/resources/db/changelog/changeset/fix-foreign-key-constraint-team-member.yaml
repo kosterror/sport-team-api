@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: fix-foreign-key-constraint-team-member
+      author: Konstantin
+      changes:
+        - dropNotNullConstraint:
+            tableName: team_member
+            columnName: role_id
+        - dropForeignKeyConstraint:
+            baseTableName: team_member
+            constraintName: fk_team_member_role
+        - addForeignKeyConstraint:
+            constraintName: fk_team_member_role
+            baseTableName: team_member
+            baseColumnNames: role_id
+            referencedTableName: team_member_role
+            referencedColumnNames: id
+            onDelete: SET NULL
+
+        - dropNotNullConstraint:
+            tableName: team_member
+            columnName: sport_team_id
+        - dropForeignKeyConstraint:
+            baseTableName: team_member
+            constraintName: fk_sport_team
+        - addForeignKeyConstraint:
+            constraintName: fk_sport_team
+            baseTableName: team_member
+            baseColumnNames: sport_team_id
+            referencedTableName: sport_team
+            referencedColumnNames: id
+            onDelete: SET NULL
