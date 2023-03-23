@@ -27,7 +27,7 @@ public class SportTeam {
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sport_type_id", nullable = false)
+    @JoinColumn(name = "sport_type_id")
     private SportType sportType;
 
     @Column(name = "date_of_foundation")
