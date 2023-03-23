@@ -31,8 +31,9 @@
 
 ```
 git clone https://github.com/kosterror/sport-team-api.git
-maven install
-docker-compose up --build
+cd sport-team-api
+mvn install
+docker-compose up --build (возможно понадобятся права супер-пользователя)
 ```
 
 ### С использованием IntelliJ IDEA на любой OC
