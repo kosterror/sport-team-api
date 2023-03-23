@@ -3,7 +3,7 @@
 ## О проекте
 
 Это RESTful сервис для хранения и управления данными о спортивных командах,
-участниках команд, видов спорта и ролей участников команд.
+участниках команд, ролей участников команд и видов спорта.
 
 ### Используемые технологии
 
@@ -11,7 +11,7 @@
 Используемая СУБД - [PostgreSQL](https://www.postgresql.org/).
 Для взаимодействия сервиса с БД использовалась -
 [Spring Data JPA](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/),
-а для миграций БД -[Liquibase](https://www.liquibase.org/).
+а для миграций БД - [Liquibase](https://www.liquibase.org/).
 
 ### ERD диаграмма базы данных
 
@@ -27,13 +27,15 @@
 ### С использованием терминала на UNIX системах.
 
 Чтобы сделать исполняемые файлы, нужно установить
-[Maven](https://maven.apache.org/guides/getting-started/maven-in-five-minutes.html)
+[Maven](https://maven.apache.org/guides/getting-started/maven-in-five-minutes.html).
+Для выполнения последней, команды из списка ниже, могут понадобиться права
+супер-пользователя.
 
 ```
 git clone https://github.com/kosterror/sport-team-api.git
 cd sport-team-api
 mvn install
-docker-compose up --build (возможно понадобятся права супер-пользователя)
+docker-compose up --build 
 ```
 
 ### С использованием IntelliJ IDEA на любой OC
@@ -43,8 +45,8 @@ docker-compose up --build (возможно понадобятся права с
 3. Открыть разархивированный проект с помощью [Intellij IDEA](https://www.jetbrains.com/ru-ru/idea/download/).
 4. Сгенерировать исполняемые файлы с помощью функционала
    [Intellij IDEA](https://www.jetbrains.com/ru-ru/idea/download/).
-   1. Найти и нажать на вкладку `Maven` Она обычно находится в правой части интерфейса.
-   2. Развернуть выпадающий список `Lifecycle`.
-   3. Найти и запустить сценарий `install`.
+    1. Найти и нажать на вкладку `Maven` Она обычно находится в правой части интерфейса.
+    2. Развернуть выпадающий список `Lifecycle`.
+    3. Найти и запустить сценарий `install`.
 5. В корне проекта открыть терминал/командную строку и выполнить команду `docker-compose up --build`.
 
